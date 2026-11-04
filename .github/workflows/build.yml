@@ -1,0 +1,27 @@
+name: Build RenPy Web Game
+
+on:
+  push:
+    branches: [ "main", "master" ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Ren'Py Web Build
+        uses: JulP/renpy-build-action@v1
+        with:
+          renpy-version: '8.1.3'
+          targets: 'web'
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
+          
